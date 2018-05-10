@@ -23,6 +23,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -32,6 +34,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 @Controller
@@ -47,10 +50,26 @@ public class Main {
   public static void main(String[] args) throws Exception {
     SpringApplication.run(Main.class, args);
   }
+  
+  private static Integer counter = 1;
 
   @RequestMapping("/")
   String index() {
     return "index";
+  }
+  
+  @RequestMapping("/gettime")
+  public ResponseEntity<Sample> getTimeResponse(){
+	  
+	  Sample sample = new Sample();
+	  
+	  sample.setCounter(counter++);
+	  
+	  sample.setCurrentdate(new Date());
+	  
+	  
+	  return new ResponseEntity<>(sample, HttpStatus.OK);
+	  
   }
 
   @RequestMapping("/db")
